@@ -9,6 +9,7 @@ const data = [
     { date: "2023-06-22", firstName: "Bob", lastName: "Anderson" },
     { date: "2022-02-33", firstName: "Bob", lastName: "Anderson" },
     { date: "2001/02/28", firstName: "Bob", lastName: "Anderson" },
+
 ];
 
 console.log(data);
@@ -22,21 +23,18 @@ function createTable() {
         let year;
         if (!isNaN(yearDateObject.getDate())) {
             year = yearDateObject.getFullYear();
-        } 
-        else {
-            year = ""
+        } else {
+            year = "";
         }
         years.add(year);
         if (!yearData[year]) {
-
             yearData[year] = [];
-
         }
         yearData[year].push(item);
         // console.log(yearData);
     }
     const htmlString = generateTableHTML(years, yearData);
-    document.getElementById('data-body').innerHTML = htmlString;
+    document.getElementById("data-body").innerHTML = htmlString;
 
     // console.log(htmlString);
 }
@@ -50,25 +48,24 @@ function generateTableHTML(years, yearData) {
         for (const year of years) {
             if (year === "") {
                 htmlString += `
-            <tr>
-              <td colspan="3" class="group-title">Unique years</td>
-            </tr>
-          `;
-
-            } else {
-                htmlString += `
-            <tr>
-              <td colspan="3" class="group-title">${year}</td>
-            </tr>
-          `;
-                for (const item of yearData[year]) {
-                    htmlString += `
               <tr>
-                <td>${item.date}</td>
-                <td>${item.firstName}</td>
-                <td>${item.lastName}</td>
+                <td colspan="3" class="group-title">Unique years</td>
               </tr>
             `;
+            } else {
+                htmlString += `
+              <tr>
+                <td colspan="3" class="group-title" data-toggle="toggle">${year}</td>
+              </tr>
+            `;
+                for (const item of yearData[year]) {
+                    htmlString += `
+                <tr class="hide${year} hide">
+                  <td>${item.date}</td>
+                  <td>${item.firstName}</td>
+                  <td>${item.lastName}</td>
+                </tr>
+              `;
                 }
             }
             console.log(year);
@@ -78,5 +75,18 @@ function generateTableHTML(years, yearData) {
     return htmlString;
 }
 
-
 createTable();
+
+const toggles = document.querySelectorAll('[data-toggle="toggle"]');
+for (let toggle of toggles) {
+
+    toggle.addEventListener("click", () => {
+        console.log(toggle);
+        let targetClass = `.hide${toggle.innerHTML}`;
+        let elementsOfYears = document.querySelectorAll(targetClass);
+
+        for (let element of elementsOfYears) {
+            element.classList.toggle("hide");
+        }
+    });
+}

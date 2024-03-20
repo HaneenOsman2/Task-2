@@ -1,0 +1,17 @@
+.hide {
+    display: none;
+}
+
+.group-title {
+    cursor: pointer;
+    background-color: #f5f3f3 !important;
+    position: relative;
+}
+
+.group-title::after {
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: "";
+}

@@ -8,7 +8,7 @@ const data = [
     { date: "2023-05-5", firstName: "aly", lastName: "ahmed" },
     { date: "2023-06-22", firstName: "Bob", lastName: "Anderson" },
     { date: "2022-02-33", firstName: "Bob", lastName: "Anderson" },
-    { date: "2001/02/28", firstName: "Bob", lastName: "Anderson" },
+    { date: "2001-02-33", firstName: "Bob", lastName: "Anderson" },
 
 ];
 
@@ -24,7 +24,7 @@ function createTable() {
         if (!isNaN(yearDateObject.getDate())) {
             year = yearDateObject.getFullYear();
         } else {
-            year = "";
+            year = "UniqueYear";
         }
         years.add(year);
         if (!yearData[year]) {
@@ -42,34 +42,24 @@ function createTable() {
 function generateTableHTML(years, yearData) {
     let htmlString = `<tbody>`;
 
-    if (years.size === 1) {
-        const year = years.values().next().value;
-    } else {
-        for (const year of years) {
-            if (year === "") {
-                htmlString += `
-              <tr>
-                <td colspan="3" class="group-title">Unique years</td>
-              </tr>
-            `;
-            } else {
-                htmlString += `
+    for (const year of years) {
+        htmlString += `
               <tr>
                 <td colspan="3" class="group-title" data-toggle="toggle">${year}</td>
               </tr>
             `;
-                for (const item of yearData[year]) {
-                    htmlString += `
+        for (const item of yearData[year]) {
+            htmlString += `
                 <tr class="hide${year} hide">
                   <td>${item.date}</td>
                   <td>${item.firstName}</td>
                   <td>${item.lastName}</td>
                 </tr>
               `;
-                }
+
+
             }
-            console.log(year);
-        }
+            // console.log(year);
     }
     htmlString += `</tbody>`;
     return htmlString;
@@ -81,7 +71,7 @@ const toggles = document.querySelectorAll('[data-toggle="toggle"]');
 for (let toggle of toggles) {
 
     toggle.addEventListener("click", () => {
-        console.log(toggle);
+        // console.log(toggle);
         let targetClass = `.hide${toggle.innerHTML}`;
         let elementsOfYears = document.querySelectorAll(targetClass);
 
